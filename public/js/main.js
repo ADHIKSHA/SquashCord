@@ -31,7 +31,7 @@ var localStream;
 var serverConnection;
 var peerConnections = {}; // key is uuid, values are peer connection object and user defined display name string
 var peerUuid;
-
+var connected = {};
 
   var firebaseConfig = {
     'apiKey': 'AIzaSyBrJciZ3GS_tf9fpXZHXShQG6vGsM3FFDg',
@@ -54,6 +54,8 @@ localUuid = Math.floor(Math.random() * 1000000000);
 //////////////////////////////////////////////////////////////////////////////////
 
 function setUpPeer(peerUuid, displayName, initCall = false) {
+  if(peerUuid in connected)
+    return;
   peerConnections[peerUuid] = { 'uuid': peerUuid, 'pc': new RTCPeerConnection(servers) };
   peerConnections[peerUuid].pc.onicecandidate = event => gotIceCandidate(event, peerUuid);
   peerConnections[peerUuid].pc.ontrack = event => gotRemoteStream(event, peerUuid);
@@ -81,21 +83,24 @@ function sendMessage(sender, msg,name) {
 
 function gotIceCandidate(event, peerUuid) {
   if (event.candidate != null) {
-    io.sockets.in(room).emit('videomessage',JSON.stringify({ 'ice': event.candidate, 'uuid': localUuid, 'dest': peerUuid }));
-    sendMessage(localUuid,JSON.stringify({'ice': event.candidate}),localDisplayName);
+    console.log(room);
+    socket.emit('videomessage',JSON.stringify({ 'ice': event.candidate, 'uuid': localUuid, 'dest': peerUuid }));
+   // sendMessage(localUuid,JSON.stringify({'ice': event.candidate}),localDisplayName);
   }
 }
 
 function createdDescription(description, peerUuid) {
-  console.log(`got description, peer ${peerUuid}`);
+  console.log(`got description, peer ${peerUuid}`);  
   peerConnections[peerUuid].pc.setLocalDescription(description).then(function () {
-    io.sockets.in(room).emit('videomessage',JSON.stringify({ 'sdp': peerConnections[peerUuid].pc.localDescription, 'uuid': localUuid, 'dest': peerUuid }));
+    socket.emit('videomessage', JSON.stringify({ 'sdp': peerConnections[peerUuid].pc.localDescription, 'uuid': localUuid, 'dest': peerUuid }));
   }).catch(errorHandler);
 }
 
-function gotRemoteStream(event, peerUuid) {
+async function gotRemoteStream(event, peerUuid) {
   console.log(`got remote stream, peer ${peerUuid}`);
   //assign stream to new HTML video element
+  connected[peerUuid]=1;
+  //console.log('without return');
   var vidElement = document.createElement('video');
   vidElement.setAttribute('autoplay', '');
   vidElement.setAttribute('muted', '');
@@ -115,7 +120,7 @@ function gotRemoteStream(event, peerUuid) {
 function checkPeerDisconnect(event, peerUuid) {
   var state = peerConnections[peerUuid].pc.iceConnectionState;
   console.log(`connection with peer ${peerUuid} ${state}`);
-  if (state === "failed" || state === "closed" || state === "disconnected") {
+  if (state === "failed" || state === "closed" || state === "disconnected" || state === "connected") {
     delete peerConnections[peerUuid];
     document.getElementById('videos').removeChild(document.getElementById('remoteVideo_' + peerUuid));
     updateLayout();
@@ -151,10 +156,10 @@ function makeLabel(label) {
 function errorHandler(error) {
   console.log(error);
 }
-function gotMessageFromServer(message) {
+async function gotMessageFromServer(message) {
  // var message= signal.val().message;
  console.log(message);
- var signal=JSON.parse(message._e.T);
+ var signal=JSON.parse(message);
  console.log(signal);
  
   var peerUuid = signal.uuid;
@@ -162,25 +167,29 @@ function gotMessageFromServer(message) {
   // Ignore messages that are not for us or from ourselves
   if (peerUuid == localUuid || (signal.dest != localUuid && signal.dest != 'all')) return;
 
-  if (signal.displayName && signal.dest == 'all') {
+  if (signal.displayName && signal.dest == 'all' && signal.uuid) {
     // set up peer connection object for a newcomer peer
     setUpPeer(peerUuid, signal.displayName);
-    io.sockets.in(room).emit('videomessage',JSON.stringify({ 'displayName': localDisplayName, 'uuid': localUuid, 'dest': peerUuid }));
+    socket.emit('videomessage', JSON.stringify({ 'displayName': localDisplayName, 'uuid': localUuid, 'dest': peerUuid }));
 
   } else if (signal.displayName && signal.dest == localUuid) {
     // initiate call if we are the newcomer peer
     setUpPeer(peerUuid, signal.displayName, true);
 
   } else if (signal.sdp) {
-    peerConnections[peerUuid].pc.setRemoteDescription(new RTCSessionDescription(signal.sdp)).then(function () {
+    peerConnections[peerUuid].pc.setRemoteDescription(new RTCSessionDescription(signal.sdp)).then(async function () {
       // Only create answers in response to offers
       if (signal.sdp.type == 'offer') {
-        peerConnections[peerUuid].pc.createAnswer().then(description => createdDescription(description, peerUuid)).then(() => sendMessage(localUuid, JSON.stringify({ 'displayName': localDisplayName, 'uuid': localUuid, 'dest': peerUuid }),localDisplayName));
+        peerConnections[peerUuid].pc.createAnswer().then(description => createdDescription(description, peerUuid));
+      }
+      else if ( signal.sdp.type === 'answer' ) {
+                    await peerConnections[peerUuid].pc.setRemoteDescription( new RTCSessionDescription( data.sdp ) );
       }
     }).catch(errorHandler);
 
   } else if (signal.ice) {
-    peerConnections[peerUuid].pc.addIceCandidate(new RTCIceCandidate(signal.ice)).catch(errorHandler);
+    if(peerConnections[peerUuid]!=undefined)
+        peerConnections[peerUuid].pc.addIceCandidate(new RTCIceCandidate(signal.ice)).catch(errorHandler);
   }
 }
 async function sendVideo(users,room,username){
@@ -208,41 +217,54 @@ var constraints = {
   await new Promise(resolve => setTimeout(resolve, 5000));
   console.log("length");
   console.log(users.length);
-  if(users.length>1){
-    setUpPeer(localUuid,username,true);
-    socket.on('videomessage',message => {
+  if(users.length>4)
+  {
+    socket.emit('full_room',"done");
+  }
+
+  else if(users.length>1){
+    //setUpPeer(localUuid,username,true);
+    socket.on('vmessage',async function(message) {
+  console.log('vmessage recieved');
     gotMessageFromServer(message);
   });
-   io.sockets.in(room).emit('videomessage',JSON.stringify({ 'displayName': localDisplayName, 'uuid': localUuid, 'dest': 'all' }));
-
+   socket.emit('videomessage', JSON.stringify({ 'displayName': localDisplayName, 'uuid': localUuid, 'dest': 'all' }));
   }
   else
   {
   setUpPeer(localUuid,username,false);
-  socket.on('videomessage',message => {
+  socket.on('vmessage',async function(message) {
+  console.log('vmessage recieved');
     gotMessageFromServer(message);
   });
-  io.sockets.in(room).emit('videomessage',JSON.stringify({ 'displayName': localDisplayName, 'uuid': localUuid, 'dest': 'all' }));
-
-  }
+  socket.emit('videomessage', JSON.stringify({ 'displayName': localDisplayName, 'uuid': localUuid, 'dest': 'all' }));
+}
 }
 
 
-database.on('child_added', gotMessageFromServer);
+//database.on('child_added', gotMessageFromServer);
 //////////////////////////////////////////////////////////////////////////////////
 
 // Get username and room from URL
-socket.on('videomessage',message => {
-    gotMessageFromServer(message);
-  });
+
+
+
 // Join chatroom
+
+socket.on('room_full',(id)=>{
+  alert('This room is full ! Maximum 4 people...');
+//window.location.href="/";
+});
+
 socket.emit('joinRoom', { username, room });
+
+
 
 
 // Get room and users
 socket.on('roomUsers', ({ room, users }) => {
   outputRoomName(room);
-  outputUsers(users);
+  outputUsers(users);  
   sendVideo(users,room,username);
 });
 

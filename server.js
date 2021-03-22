@@ -5,6 +5,7 @@ const fs = require('fs');
 const express = require('express');
 var firebase = require('firebase');
 const socketio = require('socket.io');
+const WebSocket = require('ws');
 const formatMessage = require('./utils/messages');
 const {
   userJoin,
@@ -41,8 +42,11 @@ io.on('connection', socket => {
   socket.on('joinRoom', ({ username, room }) => {
     const user = userJoin(socket.id, username, room);
 
-    socket.join(user.room);
     // Welcome current user
+  users = getRoomUsers(user.room);
+
+    socket.join(user.room);
+    
     socket.emit('message', formatMessage(botName, 'Welcome to ChatCord!'));
     // Broadcast when a user connects
     socket.broadcast
@@ -59,11 +63,21 @@ io.on('connection', socket => {
     });
   });
 
+  socket.on('full_room',msg => {
+    socket.emit('room_full',"done");
+  });
   // Listen for chatMessage
   socket.on('chatMessage', msg => {
     const user = getCurrentUser(socket.id);
     io.to(user.room).emit('message', formatMessage(user.username, msg));
   });
+  
+  socket.on('videomessage',msg =>{
+    const user = getCurrentUser(socket.id);
+    socket.broadcast.to(user.room).emit('vmessage',msg);
+  });
+
+
 
   // Runs when client disconnects
   socket.on('disconnect', () => {
