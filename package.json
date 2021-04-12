@@ -1,5 +1,5 @@
 {
-  "name": "chatcord",
+  "name": "squashcord",
   "version": "1.0.0",
   "description": "Realtime chat app with rooms",
   "main": "server.js",

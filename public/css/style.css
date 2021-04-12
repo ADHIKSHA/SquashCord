@@ -1,11 +1,13 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 
 :root {
-	--dark-color-a: #667aff;
-	--dark-color-b: #7386ff;
-	--light-color: #e6e9ff;
+	--dark-color-a: #252830;
+	--dark-color-b:  #444857;
+	--light-color:  #b3b3ff;
 	--success-color: #5cb85c;
 	--error-color: #d9534f;
+	--rowHeight: 50vh;
+    --colWidth: 50vw;
 }
 
 * {
@@ -13,12 +15,16 @@
 	margin: 0;
 	padding: 0;
 }
+html{
+	height: 100%;
+}
 
 body {
 	font-family: 'Roboto', sans-serif;
 	font-size: 16px;
 	background: var(--light-color);
 	margin: 20px;
+	height: 100%;
 }
 
 ul {
@@ -33,7 +39,7 @@ a {
 	cursor: pointer;
 	padding: 5px 15px;
 	background: var(--light-color);
-	color: var(--dark-color-a);
+	color: black;
 	border: 0;
 	font-size: 17px;
 }
@@ -41,10 +47,13 @@ a {
 /* Chat Page */
 
 .chat-container {
-	max-width: 1100px;
+	max-width: 100%;
+	max-height:  100%;
 	background: #fff;
-	margin: 30px auto;
-	overflow: hidden;
+	/*margin: 30px auto;
+	overflow: hidden;*/
+	display: grid;;
+	grid-template-rows: 0.7fr 5fr;
 }
 
 .chat-header {
@@ -55,52 +64,71 @@ a {
 	padding: 15px;
 	display: flex;
 	align-items: center;
+	position: relative;
 	justify-content: space-between;
 }
 
 .chat-main {
 	display: grid;
-	grid-template-columns: 1fr 3fr;
+	grid-column-gap: 10px;
+	height: 100%;
+	grid-template-columns: 1fr 3fr 1fr;
+	background-color: var(--dark-color-b);
 }
 
 .chat-sidebar {
 	background: var(--dark-color-b);
 	color: #fff;
-	padding: 20px 20px 60px;
-	overflow-y: scroll;
+	width: 100%;
+	height: 100%;
+	padding: 15px 15px 10px;
+	overflow-y: hidden;
 }
 
 .chat-sidebar h2 {
-	font-size: 20px;
+	font-size: 17px;
 	background: rgba(0, 0, 0, 0.1);
 	padding: 10px;
 	margin-bottom: 20px;
 }
 
 .chat-sidebar h3 {
+	font-size: 20px;
 	margin-bottom: 15px;
 }
-
+	
 .chat-sidebar ul li {
-	padding: 10px 0;
+	padding: 10px;
 }
 
+.chat-message-box{
+	height: 100%;
+	border: solid;
+	border-width: 4px;
+	border-top: 0px;
+	border-color: var(--dark-color-a);
+}
 .chat-messages {
-	padding: 30px;
-	max-height: 500px;
+	padding: 10px;
 	overflow-y: scroll;
+	height: 90%;
+	background-color: var(--dark-color-b);
+
+	
 }
 
 .chat-messages .message {
 	padding: 10px;
 	margin-bottom: 15px;
 	background-color: var(--light-color);
-	border-radius: 5px;
+	border-radius: 1px;
+	border: solid;
+	font-size: 15px;
 	overflow-wrap: break-word;
 }
 
 .chat-messages .message .meta {
-	font-size: 15px;
+	font-size: 12px;
 	font-weight: bold;
 	color: var(--dark-color-b);
 	opacity: 0.7;
@@ -112,19 +140,25 @@ a {
 }
 
 .chat-form-container {
-	padding: 20px 30px;
+	padding: 2px 3px;
 	background-color: var(--dark-color-a);
+	height: 10%;
+	border-width: 3px;
+	border-color: black;
 }
 
 .chat-form-container form {
 	display: flex;
 }
 
-.chat-form-container input[type='text'] {
-	font-size: 16px;
-	padding: 5px;
-	height: 40px;
+.chat-form-container textarea[type='text'] {
+	font-size: 15px;
+	padding: 2px;
+	height: 10%;
 	flex: 1;
+	border-width: 5px;
+	border-color: var(--light-color);
+	border-radius: 0.5px;
 }
 
 /* Join Page */
@@ -179,6 +213,48 @@ a {
 	width: 100%;
 }
 
+
+  .videos { 
+  
+      display: grid;
+      grid-gap: 5px;
+      grid-auto-flow: row;
+      
+      grid-template-columns: repeat(auto-fit, minmax(var(--colWidth), 1fr)) ;
+  }
+  
+  .videoContainer {
+      position: relative;
+      overflow: hidden;
+      
+      min-height: var(--rowHeight);
+      min-width: var(--colWidth);
+      
+  }
+  
+  .videoContainer video {
+  
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: auto;
+      width: 100%;
+  }
+  
+  .videoLabel {
+      color: white;
+      font: bold 18px Arial, Sans-Serif;
+      line-height: 18px;
+      height: 18px;
+      
+      background: rgba(0, 0, 0, 0.55);
+      
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      padding: 4px;
+  }
+
 @media (max-width: 700px) {
 	.chat-main {
 		display: block;
@@ -187,4 +263,33 @@ a {
 	.chat-sidebar {
 		display: none;
 	}
+}
+
+.video-chat-container-two {
+  position: relative;
+}
+
+.remote-video-two {
+  
+  position:absolute;
+	max-width:30vw;
+    max-height:20vh;
+    top: 50vh;
+    right: 3px;
+}
+.remote-video-two video {
+  
+  width: 100%;
+  height: 100%;
+}
+
+.local-video-two {
+	position: absolute;
+  width: 100%;
+  height: 100%;
+  border:5px solid blue;
+}
+.local-video-two video {
+ width: 100%;
+  height: 100%;
 }
