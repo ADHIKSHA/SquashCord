@@ -11,7 +11,6 @@ The app uses WebRTC for peer to peer connection which facilitates Video sharing 
 
 ## Demo
 <img src ="https://user-images.githubusercontent.com/29985870/114509339-0381f800-9c53-11eb-8e1a-daf30bcad685.png" width="520" height="300">
-<img src ="https://user-images.githubusercontent.com/29985870/114509352-07157f00-9c53-11eb-877b-c5ee7ba2f639.png" width="520" height="300">
 <img src ="https://user-images.githubusercontent.com/29985870/114509361-0977d900-9c53-11eb-9943-a7a198310e10.png" width="520" height="300">
 
 
