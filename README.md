@@ -10,9 +10,17 @@ The app uses WebRTC for peer to peer connection which facilitates Video sharing 
 5. Video and audio toggle.
 
 ## Demo
-<img src ="https://user-images.githubusercontent.com/29985870/114509339-0381f800-9c53-11eb-8e1a-daf30bcad685.png" width="520" height="300">
-<img src ="https://user-images.githubusercontent.com/29985870/114509361-0977d900-9c53-11eb-9943-a7a198310e10.png" width="520" height="300">
+<img src ="https://user-images.githubusercontent.com/29985870/114509339-0381f800-9c53-11eb-8e1a-daf30bcad685.png" width="650" height="380">
+<img src ="https://user-images.githubusercontent.com/29985870/114509361-0977d900-9c53-11eb-9943-a7a198310e10.png" width="650" height="380">
 
+
+## Dependencies
+1. Nodejs
+2. Express Js
+3. React Js
+4. Firebase
+5. WebRTC API
+6. Socket IO
 
 ## Future Scope
 1. Games
