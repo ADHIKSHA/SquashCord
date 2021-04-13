@@ -1,4 +1,4 @@
-# ChatCord App
+# SquashCord App
 Realtime, Multi-Peer Video calling and chat app with websockets and WebRTC using Node.js, Express and Socket.io with Vanilla JS on the frontend with a flexible and intuitive GUI.
 The app uses WebRTC for peer to peer connection which facilitates Video sharing between the peers. The sockets help in connecting multiple peers and transferring messages between them. 
 
