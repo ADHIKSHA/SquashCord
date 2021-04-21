@@ -42,5 +42,6 @@ Then, the script will check if the user is the first one to enter the room, If s
 If, the user was not the first one to join the room, then the script will listen to all the messages broadcasted by the server. If there is a description , the WebRTC peer will create an answer and send it to the server to broadcast. If the answer is received by other peers then they send ICEs. And exchanges their video and audio streams.
 Once the connection between is established they can exchange chat messages too using socket.io.
 
+## if you like the app, drop a star on github :)
 
 
