@@ -538,7 +538,7 @@ function toggleSidebar() {
 }
 
 function handleToggleBtnPress() {
-  toogleSidebar();
+  toggleSidebar();
   toggleChat();
 }
 
