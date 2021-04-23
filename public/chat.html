@@ -9,10 +9,20 @@
       integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-        
-     <script src="https://www.webrtc-experiment.com/common.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+      crossorigin="anonymous"
+    />
+
+    <script src="https://www.webrtc-experiment.com/common.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
     <link rel="stylesheet" href="css/style.css" />
     <title>SquashCord App</title>
@@ -21,49 +31,74 @@
     <div class="chat-container" style="height: 100%">
       <header class="chat-header">
         <h1><i class="fas fa-smile"></i> SquashCord</h1>
-        <div style="float: right;">
-        <button class="btn  rounded-0" id='toggle-mute' title="Mute" style="color: black;">
+        <div style="float: right">
+          <button
+            class="btn rounded-0"
+            id="toggle-mute"
+            title="Mute"
+            style="color: black"
+          >
             <i class="fa fa-microphone-alt text-black"></i>
-        </button>
-        <button class="btn rounded-0" id='toggle-video' title="Hide Video" style="color: black;">
+          </button>
+          <button
+            class="btn rounded-0"
+            id="toggle-video"
+            title="Hide Video"
+            style="color: black"
+          >
             <i class="fa fa-video text-black"></i>
-        </button>
-        <a id="leave-btn" class="btn" style="background-color: tomato;" >Leave Room</a>
-      </div>
+          </button>
+          <a id="leave-btn" class="btn" style="background-color: tomato"
+            >Leave Room</a
+          >
+        </div>
       </header>
       <main class="chat-main">
+        <button class="toggle-btn hidden" id="show-users-btn">
+          show users
+        </button>
         <div class="chat-sidebar">
           <h3><i class="fas fa-comments"></i> Room:</h3>
           <h2 id="room-name"></h2>
           <h3><i class="fas fa-users"></i> Users:</h3>
-          <ul id="users" ></ul>
+          <ul id="users"></ul>
         </div>
         <div id="videos" class="videos">
-            <div id="videopanel" name="videopanel" class="videoContainer">
-            <video id="yourVideo" name="yourVideo"  muted playsinline controls autoplay ></video>
-            </div>
-        </div>
-        <div class="chat-message-box">
-        <div class="chat-messages"></div>
-        <div class="chat-form-container">
-        <form id="chat-form">
-          <textarea
-            id="msg"
-            type="text"
-            placeholder="Enter Message"
-            required
-            autocomplete="off"
-            col=2
-          ></textarea>
-          <button class="btn"><i class="fas fa-paper-plane"></i> Send</button>
-        </form>
-            </div>
+          <div id="videopanel" name="videopanel" class="videoContainer">
+            <video
+              id="yourVideo"
+              name="yourVideo"
+              muted
+              playsinline
+              controls
+              autoplay
+            ></video>
           </div>
+        </div>
+        <button class="toggle-btn" id="show-chat-btn">
+          show chat
+        </button>
+        <div class="chat-message-box hidden">
+          
+          <div class="chat-messages"></div>
+          <div class="chat-form-container">
+            <form id="chat-form">
+              <textarea
+                id="msg"
+                type="text"
+                placeholder="Enter Message"
+                required
+                autocomplete="off"
+                col="2"
+              ></textarea>
+              <button class="btn">
+                <i class="fas fa-paper-plane"></i> Send
+              </button>
+            </form>
+          </div>
+        </div>
       </main>
-      
     </div>
-    
-    
 
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.2/qs.min.js"
