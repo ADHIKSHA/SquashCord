@@ -24,10 +24,10 @@ var credentials = {key: privateKey, cert: certificate};
 
 // your express configuration here
 
-var httpServer = http.createServer(app);
+//var httpServer = http.createServer(app);
 var server = https.createServer(credentials, app);
 
-httpServer.listen(8080);
+//httpServer.listen(8080);
 server.listen(3000);
 
 const io = socketio(server);
