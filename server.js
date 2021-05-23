@@ -1,5 +1,3 @@
-'use strict';
-
 const path = require('path');
 const http = require('http');
 const https = require('https');
@@ -32,7 +30,7 @@ var server = https.createServer(credentials, app);
 
 //httpServer.listen(8080);
 server.listen(3000);*/
-const server = app.listen(3000);
+const server = app.listen(process.env.PORT || 3000);
 
 const io = socketio(server);
 
