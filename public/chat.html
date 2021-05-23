@@ -32,6 +32,15 @@
       <header class="chat-header">
         <h1><i class="fas fa-smile"></i> SquashCord</h1>
         <div style="float: right">
+          <button class="toggle-btn btn hidden" id="show-users-btn">
+          show users
+        </button>
+        <button class="toggle-btn btn  " id="show-chat-btn">
+          show chat
+        </button>
+        <button class="toggle-btn btn" id="hide-all">
+          Close
+        </button>
           <button
             class="btn rounded-0"
             id="toggle-mute"
@@ -54,15 +63,6 @@
         </div>
       </header>
       <main class="chat-main">
-        <button class="toggle-btn hidden" id="show-users-btn">
-          show users
-        </button>
-        <div class="chat-sidebar">
-          <h3><i class="fas fa-comments"></i> Room:</h3>
-          <h2 id="room-name"></h2>
-          <h3><i class="fas fa-users"></i> Users:</h3>
-          <ul id="users"></ul>
-        </div>
         <div id="videos" class="videos">
           <div id="videopanel" name="videopanel" class="videoContainer">
             <video
@@ -75,11 +75,13 @@
             ></video>
           </div>
         </div>
-        <button class="toggle-btn" id="show-chat-btn">
-          show chat
-        </button>
+        <div class="chat-sidebar">
+          <h3><i class="fas fa-comments"></i> Room:</h3>
+          <h2 id="room-name"></h2>
+          <h3><i class="fas fa-users"></i> Users:</h3>
+          <ul id="users"></ul>
+        </div>
         <div class="chat-message-box hidden">
-          
           <div class="chat-messages"></div>
           <div class="chat-form-container">
             <form id="chat-form">
@@ -97,6 +99,7 @@
             </form>
           </div>
         </div>
+        
       </main>
     </div>
 

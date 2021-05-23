@@ -89,10 +89,14 @@ a {
 .chat-sidebar {
   background: var(--dark-color-b);
   color: #fff;
-  width: 25vw;
+  width: 20vw;
   height: 100%;
   padding: 15px 15px 10px;
-  overflow-y: hidden;
+  overflow-y: hidden;  
+  border: solid;
+  border-width: 4px;  
+  border-top: 0px;
+  border-color: var(--dark-color-a);
 }
 
 .chat-sidebar h2 {
@@ -115,21 +119,22 @@ a {
   height: 100%;
   border: solid;
   border-width: 4px;
+  width: 20vw;
   border-top: 0px;
   border-color: var(--dark-color-a);
 }
 .chat-messages {
-  padding: 10px;
+  padding: 6px;
   overflow-y: scroll;
   height: 90%;
   background-color: var(--dark-color-b);
 }
 
 .chat-messages .message {
-  padding: 10px;
+  padding: 5px;
   margin-bottom: 15px;
   background-color: var(--light-color);
-  border-radius: 1px;
+  border-radius: 10px;
   border: solid;
   font-size: 15px;
   overflow-wrap: break-word;
@@ -243,8 +248,9 @@ a {
   position: absolute;
   left: 0;
   bottom: 0;
-  height: auto;
+  height: 100%;
   width: 100%;
+  margin-top: 20px;
 }
 
 .videoLabel {

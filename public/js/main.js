@@ -472,6 +472,7 @@ function outputUsers(users) {
     const li = document.createElement("li");
     li.innerText = user.username;
     li.style.background = "lightgray";
+    li.style.color = "black";
     const icon = document.createElement("span");
     icon.classList.add("fa");
     icon.classList.add("fa-circle");
@@ -508,6 +509,24 @@ function broadcastNewTracks(stream, type, mirrorMode = true) {
 }
 
 //Toggle chat & sidebar:
+function hideElement(element) {
+  const isOpen = !element.classList.contains("hidden");
+
+  if (isOpen) {
+    element.classList.add("hidden");
+    return;
+  }
+}
+
+function showElement(element) {
+  const isOpen = !element.classList.contains("hidden");
+
+  if (!isOpen) {
+    element.classList.remove("hidden");
+    return;
+  }
+}
+
 function toggleElement(element) {
   const isOpen = !element.classList.contains("hidden");
 
@@ -519,33 +538,80 @@ function toggleElement(element) {
   element.classList.remove("hidden");
 }
 
-function toggleChat() {
+function hideChat() {
   const chatContainer = document.querySelector(".chat-message-box");
-  toggleElement(chatContainer);
+  hideElement(chatContainer);
 
   //toogle the "show users" btn:
   const showUserBtn = document.querySelector("#show-chat-btn");
-  toggleElement(showUserBtn);
+  showElement(showUserBtn);
 }
 
-function toggleSidebar() {
+function hideUsers() {
   const sideBar = document.querySelector(".chat-sidebar");
-  toggleElement(sideBar);
+  hideElement(sideBar);
 
   //toogle the "show chat" btn:
   const showUserBtn = document.querySelector("#show-users-btn");
-  toggleElement(showUserBtn);
+  showElement(showUserBtn);
 }
 
-function handleToggleBtnPress() {
-  toggleSidebar();
-  toggleChat();
+function showChat() {
+  const chatContainer = document.querySelector(".chat-message-box");
+   const closeAll = document.querySelector("#hide-all");
+  showElement(chatContainer);
+
+  //toogle the "show users" btn:
+  const showChatBtn = document.querySelector("#show-chat-btn");
+  hideElement(showChatBtn);
+
+  const showUserBtn = document.querySelector("#show-users-btn");
+  showElement(showUserBtn);
+
+  hideUsers();
+  showElement(closeAll);
+
+}
+
+function showUsers() {
+  const sideBar = document.querySelector(".chat-sidebar");
+   const closeAll = document.querySelector("#hide-all");
+ 
+  showElement(sideBar);
+
+  //toogle the "show chat" btn:
+  const showUserBtn = document.querySelector("#show-users-btn");
+  hideElement(showUserBtn);
+
+  hideChat();
+  showElement(closeAll);
+}
+
+
+
+function handleCloseBars() {
+  const showUserBtn = document.querySelector("#show-users-btn");
+  const sideBar = document.querySelector(".chat-sidebar");
+  const chatContainer = document.querySelector(".chat-message-box");
+  const showChatBtn = document.querySelector("#show-chat-btn");
+  const closeAll = document.querySelector("#hide-all");
+  hideElement(sideBar);
+  hideElement(chatContainer);
+  showElement(showUserBtn);
+  showElement(showChatBtn);
+  hideElement(closeAll);
 }
 
 document.querySelector("#show-users-btn").addEventListener("click", () => {
-  handleToggleBtnPress();
+  hideChat();
+  showUsers();
 });
 
 document.querySelector("#show-chat-btn").addEventListener("click", () => {
-  handleToggleBtnPress();
+  hideUsers();
+  showChat();
+});
+
+document.querySelector("#hide-all").addEventListener("click", () => {
+  handleCloseBars();
 });
