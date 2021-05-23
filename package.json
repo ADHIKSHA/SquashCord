@@ -8,8 +8,8 @@
     "npm": "6.x"
   },
   "scripts": {
-    "start": "node server",
-    "dev": "nodemon server"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "author": "Adhiksha Thorat",
   "license": "MIT",
