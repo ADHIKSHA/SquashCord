@@ -89,7 +89,7 @@ socket.on("message", (message) => {
 
 // Message submit
 chatForm.addEventListener("submit", (e) => {
-  console.log(e);
+  //console.log(e);
   e.preventDefault();
 
   // Get message text
