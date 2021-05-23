@@ -1,13 +1,13 @@
 {
   "name": "squashcord",
   "version": "1.0.0",
-  "description": "Realtime chat app with rooms",
+  "description": "Realtime video chat app with rooms",
   "main": "server.js",
   "scripts": {
     "start": "node server",
     "dev": "nodemon server"
   },
-  "author": "Brad Traversy",
+  "author": "Adhiksha Thorat",
   "license": "MIT",
   "dependencies": {
     "express": "^4.17.1",
