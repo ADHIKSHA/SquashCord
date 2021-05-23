@@ -17,6 +17,7 @@ const {
 const app = express();
 //const server = https.createServer(app);
 
+/*
 var privateKey  = fs.readFileSync('key.pem');
 var certificate = fs.readFileSync('cert.pem');
 
@@ -24,11 +25,12 @@ var credentials = {key: privateKey, cert: certificate};
 
 // your express configuration here
 
-//var httpServer = http.createServer(app);
+var httpServer = http.createServer(app);
 var server = https.createServer(credentials, app);
 
 //httpServer.listen(8080);
-server.listen(3000);
+server.listen(3000);*/
+const server = app.listen(3000);
 
 const io = socketio(server);
 

@@ -27,7 +27,7 @@ const { username, room } = Qs.parse(location.search, {
   ignoreQueryPrefix: true,
 });
 var database;
-const WS_PORT = 8443; //make sure this matches the port for the webscokets server
+const WS_PORT = 3000; //make sure this matches the port for the webscokets server
 var yourVideo;
 var friendsVideo;
 var desc;
