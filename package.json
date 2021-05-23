@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Realtime chat app with rooms",
   "main": "server.js",
+  "engines": {
+    "node": "14.x"
+  }
   "scripts": {
     "start": "node server",
     "dev": "nodemon server"
