@@ -10,7 +10,7 @@
     "start": "node server",
     "dev": "nodemon server"
   },
-  "author": "Brad Traversy",
+  "author": "Adhiksha Thorat",
   "license": "MIT",
   "dependencies": {
     "express": "^4.17.1",
